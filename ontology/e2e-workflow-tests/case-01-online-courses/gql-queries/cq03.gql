@@ -1,0 +1,5 @@
+// CQ3: How many students are enrolled in each course?
+// Expect: C001=2, C002=2, C003=1, C004=1
+MATCH (e:`Enrollment`)-[:`enrolledIn`]->(c:`Course`)
+RETURN c.CourseID AS CourseID, c.title AS title, COUNT(e) AS enrollmentCount
+GROUP BY CourseID, title;

@@ -1,0 +1,6 @@
+// CQ1: Which courses cover a given topic?
+// Filter: topic = 'Programming'
+// Expect: C001 (Intro to Python), C003 (Web Development)
+MATCH (c:`Course`)
+WHERE c.topic = 'Programming'
+RETURN c.CourseID, c.title;

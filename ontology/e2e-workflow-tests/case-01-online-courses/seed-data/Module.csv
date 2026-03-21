@@ -1,0 +1,7 @@
+ModuleID,title,orderNum,CourseID
+M001,Variables and Types,1,C001
+M002,Control Flow,2,C001
+M003,Functions,3,C001
+M004,Data Wrangling,1,C002
+M005,Visualization,2,C002
+M006,HTML Basics,1,C003

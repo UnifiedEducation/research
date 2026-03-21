@@ -1,0 +1,5 @@
+CourseID,title,topic,InstructorID,PlatformID
+C001,Intro to Python,Programming,I001,P001
+C002,Data Science 101,Data,I002,P002
+C003,Web Development,Programming,I001,P001
+C004,Machine Learning,Data,I003,P003

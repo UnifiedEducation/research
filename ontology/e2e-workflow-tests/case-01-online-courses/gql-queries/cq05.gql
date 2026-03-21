@@ -1,0 +1,6 @@
+// CQ5: Which courses does a given student take?
+// Filter: student name = 'Alice'
+// Expect: Intro to Python, Data Science 101
+MATCH (s:`Student`)-[:`hasEnrollment`]->(e:`Enrollment`)-[:`enrolledIn`]->(c:`Course`)
+WHERE s.name = 'Alice'
+RETURN c.CourseID, c.title;

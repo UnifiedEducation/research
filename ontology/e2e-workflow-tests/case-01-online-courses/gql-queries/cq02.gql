@@ -1,0 +1,6 @@
+// CQ2: Who teaches a given course?
+// Filter: course title = 'Data Science 101'
+// Expect: Prof. Jones
+MATCH (i:`Instructor`)-[:`teaches`]->(c:`Course`)
+WHERE c.title = 'Data Science 101'
+RETURN i.name;

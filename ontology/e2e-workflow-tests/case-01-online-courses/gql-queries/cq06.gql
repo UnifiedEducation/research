@@ -1,0 +1,6 @@
+// CQ6: Which platform hosts a given course?
+// Tests: Edge traversal (Course -> CoursePlatform) via publishedOn relationship
+// Expected: Udemy (for Intro to Python)
+MATCH (c:`Course`)-[:`publishedOn`]->(p:`CoursePlatform`)
+WHERE c.title = 'Intro to Python'
+RETURN c.title, p.name, p.url;

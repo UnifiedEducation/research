@@ -1,0 +1,6 @@
+// CQ7: How many courses are published on each platform?
+// Tests: Aggregation (COUNT) across publishedOn edges grouped by platform
+// Expected: Udemy=2, Coursera=1, Skillshare=1
+MATCH (c:`Course`)-[:`publishedOn`]->(p:`CoursePlatform`)
+RETURN p.name, COUNT(c) AS courseCount
+ORDER BY courseCount DESC;

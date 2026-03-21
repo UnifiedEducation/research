@@ -1,0 +1,7 @@
+// CQ4: What modules belong to a given course?
+// Filter: course title = 'Intro to Python'
+// Expect: Variables and Types (1), Control Flow (2), Functions (3)
+MATCH (c:`Course`)-[:`hasModule`]->(m:`Module`)
+WHERE c.title = 'Intro to Python'
+RETURN m.ModuleID, m.title, m.orderNum
+ORDER BY m.orderNum;

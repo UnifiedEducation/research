@@ -1,0 +1,12 @@
+{
+  "ontologyId": "9e88c7b7-b483-43f3-92d1-a9a558fbf44c",
+  "ontologyName": "E2E_C01_OnlineCourses",
+  "tables": [
+    "e2e_c01_instructor",
+    "e2e_c01_course",
+    "e2e_c01_module",
+    "e2e_c01_student",
+    "e2e_c01_enrollment",
+    "e2e_c01_course_platform"
+  ]
+}

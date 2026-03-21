@@ -1,0 +1,93 @@
+{
+  "name": "E2E_C01_OnlineCourses",
+  "description": "Online course platform - tests 1:N chains, M:N via junction entity, and platform publishing",
+  "tablePrefix": "e2e_c01",
+  "entities": [
+    {
+      "name": "Instructor",
+      "keyProperty": "InstructorID",
+      "properties": [
+        {"name": "InstructorID", "valueType": "String"},
+        {"name": "name", "valueType": "String"}
+      ]
+    },
+    {
+      "name": "CoursePlatform",
+      "keyProperty": "PlatformID",
+      "properties": [
+        {"name": "PlatformID", "valueType": "String"},
+        {"name": "name", "valueType": "String"},
+        {"name": "url", "valueType": "String"}
+      ]
+    },
+    {
+      "name": "Course",
+      "keyProperty": "CourseID",
+      "properties": [
+        {"name": "CourseID", "valueType": "String"},
+        {"name": "title", "valueType": "String"},
+        {"name": "topic", "valueType": "String"},
+        {"name": "InstructorID", "valueType": "String"},
+        {"name": "PlatformID", "valueType": "String"}
+      ]
+    },
+    {
+      "name": "Module",
+      "keyProperty": "ModuleID",
+      "properties": [
+        {"name": "ModuleID", "valueType": "String"},
+        {"name": "title", "valueType": "String"},
+        {"name": "orderNum", "valueType": "BigInt"},
+        {"name": "CourseID", "valueType": "String"}
+      ]
+    },
+    {
+      "name": "Student",
+      "keyProperty": "StudentID",
+      "properties": [
+        {"name": "StudentID", "valueType": "String"},
+        {"name": "name", "valueType": "String"},
+        {"name": "email", "valueType": "String"}
+      ]
+    },
+    {
+      "name": "Enrollment",
+      "keyProperty": "EnrollmentID",
+      "properties": [
+        {"name": "EnrollmentID", "valueType": "String"},
+        {"name": "StudentID", "valueType": "String"},
+        {"name": "CourseID", "valueType": "String"},
+        {"name": "enrolledDate", "valueType": "DateTime"}
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "teaches",
+      "source": "Instructor",
+      "target": "Course"
+    },
+    {
+      "name": "publishedOn",
+      "source": "Course",
+      "target": "CoursePlatform",
+      "contextEntity": "Course"
+    },
+    {
+      "name": "hasModule",
+      "source": "Course",
+      "target": "Module"
+    },
+    {
+      "name": "hasEnrollment",
+      "source": "Student",
+      "target": "Enrollment"
+    },
+    {
+      "name": "enrolledIn",
+      "source": "Enrollment",
+      "target": "Course",
+      "contextEntity": "Enrollment"
+    }
+  ]
+}
