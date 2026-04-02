@@ -1,0 +1,7 @@
+film_id,title,release_year,rating,director_name,studio_name,genre,budget
+F001,The Last Horizon,2022,8.5,Ava Chen,Pinnacle Pictures,Sci-Fi,45000000.0
+F002,Echoes of Tomorrow,2021,7.8,Marcus Webb,Nova Studios,Drama,30000000.0
+F003,Iron Veil,2023,8.1,Sofia Reyes,Crimson Films,Action,60000000.0
+F004,Silent Tides,2020,7.2,Ava Chen,Pinnacle Pictures,Drama,25000000.0
+F005,Neon Drift,2023,8.9,James Park,Nova Studios,Sci-Fi,55000000.0
+F006,The Fracture,2022,7.5,Sofia Reyes,Crimson Films,Thriller,35000000.0

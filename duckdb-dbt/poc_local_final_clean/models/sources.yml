@@ -1,0 +1,41 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: raw_film_catalog
+        description: "Denormalized film data with director/studio/genre names and budget"
+        columns:
+          - name: film_id
+          - name: title
+          - name: release_year
+          - name: rating
+          - name: director_name
+          - name: studio_name
+          - name: genre
+          - name: budget
+
+      - name: raw_cast_credits
+        description: "Denormalized cast data with actor names and birth years"
+        columns:
+          - name: film_id
+          - name: actor_name
+          - name: birth_year
+          - name: role_name
+
+      - name: raw_shoot_log
+        description: "Film shoot locations with city/country and dates"
+        columns:
+          - name: film_id
+          - name: city
+          - name: country
+          - name: shoot_date
+
+      - name: raw_awards
+        description: "Film awards with names and categories"
+        columns:
+          - name: film_id
+          - name: award_name
+          - name: category
+          - name: year

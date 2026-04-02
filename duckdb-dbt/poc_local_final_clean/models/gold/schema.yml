@@ -1,0 +1,156 @@
+version: 2
+
+models:
+  - name: e2e_c02_director
+    description: "Gold: Director dimension (from ontology)"
+    columns:
+      - name: DirectorID
+        tests: [unique, not_null]
+      - name: name
+        tests: [not_null]
+
+  - name: e2e_c02_studio
+    description: "Gold: Studio dimension (from ontology)"
+    columns:
+      - name: StudioID
+        tests: [unique, not_null]
+      - name: name
+        tests: [not_null]
+      - name: founded
+        tests: [not_null]
+      - name: country
+        description: "Studio country (from ontology)"
+
+  - name: e2e_c02_genre
+    description: "Gold: Genre dimension (from ontology)"
+    columns:
+      - name: GenreID
+        tests: [unique, not_null]
+      - name: name
+        tests: [unique, not_null]
+      - name: description
+        description: "Computed genre description"
+        tests: [not_null]
+      - name: popularity
+        description: "Number of films in this genre (computed)"
+        tests: [not_null]
+
+  - name: e2e_c02_film
+    description: "Gold: Film fact table (from ontology, includes DEV budget column)"
+    columns:
+      - name: FilmID
+        tests: [unique, not_null]
+      - name: title
+        tests: [not_null]
+      - name: releaseYear
+        tests: [not_null]
+      - name: rating
+        description: "Film rating (from ontology)"
+      - name: DirectorID
+        tests:
+          - not_null
+          - relationships:
+              to: ref('e2e_c02_director')
+              field: DirectorID
+      - name: StudioID
+        tests:
+          - not_null
+          - relationships:
+              to: ref('e2e_c02_studio')
+              field: StudioID
+      - name: GenreID
+        tests:
+          - not_null
+          - relationships:
+              to: ref('e2e_c02_genre')
+              field: GenreID
+      - name: budget
+        description: "Film production budget"
+      - name: runtime
+        description: "Film runtime in minutes"
+      - name: language
+        description: "Film language (from ontology)"
+      - name: releaseDecade
+        description: "Decade of release, e.g. '2020s' (computed from releaseYear)"
+        tests: [not_null]
+      - name: titleYear
+        description: "Title with release year, e.g. 'Inception (2010)'"
+        tests: [not_null]
+
+  - name: e2e_c02_actor
+    description: "Gold: Actor dimension (from ontology)"
+    columns:
+      - name: ActorID
+        tests: [unique, not_null]
+      - name: name
+        tests: [not_null]
+      - name: birthYear
+        tests: [not_null]
+
+  - name: e2e_c02_cast
+    description: "Gold: Cast junction table (Film <-> Actor)"
+    columns:
+      - name: CastID
+        tests: [unique, not_null]
+      - name: FilmID
+        tests:
+          - not_null
+          - relationships:
+              to: ref('e2e_c02_film')
+              field: FilmID
+      - name: ActorID
+        tests:
+          - not_null
+          - relationships:
+              to: ref('e2e_c02_actor')
+              field: ActorID
+      - name: roleName
+        tests: [not_null]
+
+  - name: e2e_c02_location
+    description: "Gold: Location dimension (from ontology)"
+    columns:
+      - name: LocationID
+        tests: [unique, not_null]
+      - name: city
+        tests: [not_null]
+      - name: country
+        tests: [not_null]
+
+  - name: e2e_c02_shoot_location
+    description: "Gold: Shoot location junction (Film <-> Location)"
+    columns:
+      - name: ShootLocationID
+        tests: [unique, not_null]
+      - name: FilmID
+        tests:
+          - not_null
+          - relationships:
+              to: ref('e2e_c02_film')
+              field: FilmID
+      - name: LocationID
+        tests:
+          - not_null
+          - relationships:
+              to: ref('e2e_c02_location')
+              field: LocationID
+      - name: shootDate
+        tests: [not_null]
+
+  - name: e2e_c02_award
+    description: "Gold: Award table (from ontology)"
+    columns:
+      - name: AwardID
+        tests: [unique, not_null]
+      - name: name
+        tests: [not_null]
+      - name: category
+        tests: [not_null]
+      - name: year
+        tests: [not_null]
+      - name: FilmID
+        tests:
+          - not_null
+          - relationships:
+              to: ref('e2e_c02_film')
+              field: FilmID

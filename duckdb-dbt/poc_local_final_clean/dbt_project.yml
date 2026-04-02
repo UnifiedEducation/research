@@ -1,0 +1,26 @@
+name: film_production
+version: '1.0.0'
+profile: film_production
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+
+seeds:
+  film_production:
+    +schema: raw
+
+models:
+  film_production:
+    staging:
+      +materialized: view
+      +schema: raw
+    gold:
+      +materialized: table
+      +schema: dbo
+
+on-run-end:
+  - "CALL ducklake_rewrite_data_files('ducklake')"
+  - "CALL ducklake_merge_adjacent_files('ducklake')"
+  - "CALL ducklake_cleanup_old_files('ducklake', cleanup_all => true);"
+  - "CALL delta_export()"

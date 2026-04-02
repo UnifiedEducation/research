@@ -1,0 +1,51 @@
+name: Deploy to DEV
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "feasibility/duckdb-dbt/poc_local_final_clean/**"
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.12"
+  FABRIC_CLI_VERSION: "1.5.0"
+  WORKING_DIR: feasibility/duckdb-dbt/poc_local_final_clean
+
+jobs:
+  deploy-and-run:
+    runs-on: windows-latest
+
+    env:
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      FABRIC_WORKSPACE_ID: ${{ secrets.FABRIC_WORKSPACE_ID }}
+      FABRIC_LAKEHOUSE_ID: ${{ secrets.FABRIC_LAKEHOUSE_ID }}
+      FABRIC_ONTOLOGY_ID: ${{ secrets.FABRIC_ONTOLOGY_ID }}
+      FABRIC_DEV_WORKSPACE_ID: ${{ secrets.FABRIC_DEV_WORKSPACE_ID }}
+      FABRIC_DEV_LAKEHOUSE_ID: ${{ secrets.FABRIC_DEV_LAKEHOUSE_ID }}
+      FABRIC_DEV_ONTOLOGY_ID: ${{ secrets.FABRIC_DEV_ONTOLOGY_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install ms-fabric-cli==${{ env.FABRIC_CLI_VERSION }}
+          pip install duckdb==1.4.4 dbt-duckdb python-dotenv requests
+
+      - name: Authenticate to Fabric
+        run: fab auth login -u ${{ env.AZURE_CLIENT_ID }} -p ${{ env.AZURE_CLIENT_SECRET }} --tenant ${{ env.AZURE_TENANT_ID }}
+
+      - name: Deploy dbt artifacts to DEV lakehouse
+        working-directory: ${{ env.WORKING_DIR }}
+        run: python tools/deploy.py --target dev
+
+      - name: Run dbt in DEV
+        run: fab job run "Fabric_BMAD_DEV.Workspace/run.Notebook" --timeout 600
