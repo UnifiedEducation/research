@@ -6,6 +6,9 @@
 
 A research repository exploring Microsoft Fabric's Ontology and Graph Model APIs. The work covers ontology definition, lakehouse sync, and GQL query capabilities through a series of 55 tested hypotheses (50 pass, 5 fail).
 
+> Want to join our community of people passioante about learning the Fabric AI Workflows, that are changing businesses, today? [**Sign up here to Fabric AI Workflows**](https://www.skool.com/fabricai/about). 
+
+
 ## Repository Structure
 
 ```
