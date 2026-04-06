@@ -1,0 +1,11 @@
+services:
+  webapp:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    environment:
+      - STATIC_DIR=/app/static

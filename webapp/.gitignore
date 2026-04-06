@@ -1,0 +1,15 @@
+# Dependencies
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+__pycache__/
+
+# Environment (secrets)
+.env
+.env.local
+.env.*.local
+
+# Build
+*.pyc
+.DS_Store
+Thumbs.db
