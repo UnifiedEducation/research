@@ -1,0 +1,49 @@
+# Example addition to .github/workflows/deploy-to-dev.yml (and deploy-to-prod.yml).
+#
+# This is an example job to bolt onto the existing deploy workflow. Do not
+# rename it to .yml - copy the relevant steps into the live workflow after
+# Study-04 verifies the pattern.
+#
+# Context:
+# - The Mirrored Database item itself is deployed via Fabric Git integration
+#   or a deployment pipeline - not by this workflow. We only ensure mirroring
+#   is RUNNING in the target environment after a deploy.
+# - `fab` CLI as of 1.5.0 does not have a dedicated "start mirroring" verb,
+#   so we call the REST API directly.
+
+name: Deploy Mirror to DEV (example)
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "feasibility/open-mirroring/**"
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  start-mirror:
+    runs-on: windows-latest
+    env:
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      FABRIC_WORKSPACE_ID: ${{ secrets.FABRIC_DEV_WORKSPACE_ID }}
+      BRONZE_MIRROR_ID: ${{ secrets.BRONZE_MIRROR_DEV_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install deps
+        run: pip install requests python-dotenv azure-identity azure-storage-file-datalake
+
+      - name: Start mirroring in DEV
+        run: |
+          python feasibility/open-mirroring/study-04-cicd/poc_start_mirroring.py --wait
